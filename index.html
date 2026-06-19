@@ -5,15 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HSK 3 Standard Course - Lesson 7</title>
     
-    <!-- Tailwind CSS -->
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React & ReactDOM -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- 引入 React 和 ReactDOM (UMD 格式，无需 import) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel for in-browser JSX compilation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- 引入 Babel 用于在浏览器中实时解析 JSX -->
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+        // 强制 Babel 使用经典的 React 渲染模式，彻底避免 "react/jsx-runtime" 导入错误
+        Babel.registerPreset('react-classic', {
+            presets: [
+                [Babel.availablePresets['react'], { runtime: 'classic' }]
+            ]
+        });
+    </script>
 
     <style>
         .perspective-1000 { perspective: 1000px; }
@@ -28,12 +36,14 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- React 应用挂载点 -->
     <div id="root"></div>
 
-    <script type="text/babel">
+    <!-- React 逻辑代码：使用刚才注册的自定义经典 Babel 编译模式 -->
+    <script type="text/babel" data-presets="react-classic">
         const { useState } = React;
 
-        // --- Icon Components ---
+        // --- 图标组件 (内联 SVG) ---
         const Book = ({ size = 24, className = "" }) => (
             <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         );
@@ -62,7 +72,7 @@
             <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
         );
 
-        // --- Data ---
+        // --- 学习数据 ---
         const vocabList = [
             { id: 1, hanzi: "同事", pinyin: "tóngshì", uzbek: "hamkasb" },
             { id: 2, hanzi: "以前", pinyin: "yǐqián", uzbek: "oldin, ilgari" },
@@ -73,7 +83,7 @@
             { id: 7, hanzi: "欢迎", pinyin: "huānyíng", uzbek: "xush kelibsiz" },
             { id: 8, hanzi: "迟到", pinyin: "chídào", uzbek: "kechikmoq" },
             { id: 9, hanzi: "半", pinyin: "bàn", uzbek: "yarim" },
-            { id: 10, hanzi: "接", pinyin: "jiē", uzbek: "qabul qilmoq (kutib olmoq)" },
+            { id: 10, hanzi: "接", pinyin: "jiē", uzbek: "qabul qilmoq" },
             { id: 11, hanzi: "刻", pinyin: "kè", uzbek: "chorak" },
             { id: 12, hanzi: "差", pinyin: "chà", uzbek: "...ta kam" }
         ];
@@ -82,45 +92,45 @@
             {
                 title: "课文 1：在办公室 (Ofisda / In the office / В офисе)",
                 lines: [
-                { speaker: "同事", hanzi: "那个漂亮的新同事是谁？", pinyin: "Nàge piàoliang de xīn tóngshì shì shéi?", uzbek: "Anavi chiroyli yangi hamkasb kim?", en: "Who is that pretty new colleague?", ru: "Кто та красивая новая коллега?" },
-                { speaker: "小刚", hanzi: "那是小丽。", pinyin: "Nà shì Xiǎolì.", uzbek: "Bu Xiaoli.", en: "That is Xiaoli.", ru: "Это Сяоли." },
-                { speaker: "同事", hanzi: "她刚来北京吗？", pinyin: "Tā gāng lái Běijīng ma?", uzbek: "U Pekinga endi keldimi?", en: "Did she just come to Beijing?", ru: "Она только что приехала в Пекин?" },
-                { speaker: "小刚", hanzi: "不，她在北京工作三年了。", pinyin: "Bù, tā zài Běijīng gōngzuò sān nián le.", uzbek: "Yo'q, u Pekinda uch yildan beri ishlayapti.", en: "No, she has been working in Beijing for three years.", ru: "Нет, она работает в Пекине уже три года." },
-                { speaker: "同事", hanzi: "以前她在哪儿工作？", pinyin: "Yǐqián tā zài nǎr gōngzuò?", uzbek: "U oldin qayerda ishlagan?", en: "Where did she work before?", ru: "Где она работала раньше?" },
-                { speaker: "小刚", hanzi: "她在银行工作了两年以后来的我们公司。", pinyin: "Tā zài yínháng gōngzuòle liǎng nián yǐhòu lái de wǒmen gōngsī.", uzbek: "U bankda ikki yil ishlagandan keyin bizning kompaniyaga keldi.", en: "She worked in a bank for two years before coming to our company.", ru: "Она проработала в банке два года, прежде чем прийти в нашу компанию." }
+                    { speaker: "同事", hanzi: "那个漂亮的新同事是谁？", pinyin: "Nàge piàoliang de xīn tóngshì shì shéi?", uzbek: "Anavi chiroyli yangi hamkasb kim?", en: "Who is that pretty new colleague?", ru: "Кто та красивая новая коллега?" },
+                    { speaker: "小刚", hanzi: "那是小丽。", pinyin: "Nà shì Xiǎolì.", uzbek: "Bu Xiaoli.", en: "That is Xiaoli.", ru: "Это Сяоли." },
+                    { speaker: "同事", hanzi: "她刚来北京吗？", pinyin: "Tā gāng lái Běijīng ma?", uzbek: "U Pekinga endi keldimi?", en: "Did she just come to Beijing?", ru: "Она только что приехала в Пекин?" },
+                    { speaker: "小刚", hanzi: "不，她在北京工作三年了。", pinyin: "Bù, tā zài Běijīng gōngzuò sān nián le.", uzbek: "Yo'q, u Pekinda uch yildan beri ishlayapti.", en: "No, she has been working in Beijing for three years.", ru: "Нет, она работает в Пекине уже три года." },
+                    { speaker: "同事", hanzi: "以前她在哪儿工作？", pinyin: "Yǐqián tā zài nǎr gōngzuò?", uzbek: "U oldin qayerda ishlagan?", en: "Where did she work before?", ru: "Где она работала раньше?" },
+                    { speaker: "小刚", hanzi: "她在银行工作了两年以后来的我们公司。", pinyin: "Tā zài yínháng gōngzuòle liǎng nián yǐhòu lái de wǒmen gōngsī.", uzbek: "U bankda ikki yil ishlagandan keyin bizning kompaniyaga keldi.", en: "She worked in a bank for two years before coming to our company.", ru: "Она проработала в банке два года, прежде чем прийти в нашу компанию." }
                 ]
             },
             {
                 title: "课文 2：在休息室 (Dam olish xonasida / In the lounge / В комнате отдыха)",
                 lines: [
-                { speaker: "同事", hanzi: "周末你跟小丽去哪儿玩儿了？", pinyin: "Zhōumò nǐ gēn Xiǎolì qù nǎr wánr le?", uzbek: "Dam olish kunlari Xiaoli bilan qayerga bordingiz?", en: "Where did you go for fun with Xiaoli over the weekend?", ru: "Куда вы с Сяоли ходили гулять на выходных?" },
-                { speaker: "小刚", hanzi: "我们去唱歌了。", pinyin: "Wǒmen qù chàng gē le.", uzbek: "Biz qo'shiq aytishga bordik.", en: "We went to sing.", ru: "Мы ходили петь." },
-                { speaker: "同事", hanzi: "你们唱了多久？", pinyin: "Nǐmen chàngle duō jiǔ?", uzbek: "Qancha vaqt qo'shiq aytdingiz?", en: "How long did you sing?", ru: "Как долго вы пели?" },
-                { speaker: "小刚", hanzi: "我们唱了两个小时歌，晚上还去听音乐会了。", pinyin: "Wǒmen chàngle liǎng ge xiǎoshí gē, wǎnshang hái qù tīng yīnyuèhuì le.", uzbek: "Ikki soat qo'shiq aytdik, kechqurun yana konsertga ham bordik.", en: "We sang for two hours, and we also went to a concert in the evening.", ru: "Мы пели два часа, а вечером еще сходили на концерт." },
-                { speaker: "同事", hanzi: "你们都对音乐感兴趣吗？", pinyin: "Nǐmen dōu duì yīnyuè gǎn xìngqù ma?", uzbek: "Ikkalangiz ham musiqaga qiziqasizlarmi?", en: "Are you both interested in music?", ru: "Вы оба интересуетесь музыкой?" },
-                { speaker: "小刚", hanzi: "她对音乐感兴趣，我对她更感兴趣。", pinyin: "Tā duì yīnyuè gǎn xìngqù, wǒ duì tā gèng gǎn xìngqù.", uzbek: "U musiqaga qiziqadi, men esa unga ko'proq qiziqaman.", en: "She is interested in music, and I am more interested in her.", ru: "Она интересуется музыкой, а я больше интересуюсь ею." }
+                    { speaker: "同事", hanzi: "周末你跟小丽去哪儿玩儿了？", pinyin: "Zhōumò nǐ gēn Xiǎolì qù nǎr wánr le?", uzbek: "Dam olish kunlari Xiaoli bilan qayerga bordingiz?", en: "Where did you go for fun with Xiaoli over the weekend?", ru: "Куда вы с Сяоли ходили гулять на выходных?" },
+                    { speaker: "小刚", hanzi: "我们去唱歌了。", pinyin: "Wǒmen qù chàng gē le.", uzbek: "Biz qo'shiq aytishga bordik.", en: "We went to sing.", ru: "Мы ходили петь." },
+                    { speaker: "同事", hanzi: "你们唱了多久？", pinyin: "Nǐmen chàngle duō jiǔ?", uzbek: "Qancha vaqt qo'shiq aytdingiz?", en: "How long did you sing?", ru: "Как долго вы пели?" },
+                    { speaker: "小刚", hanzi: "我们唱了两个小时歌，晚上还去听音乐会了。", pinyin: "Wǒmen chàngle liǎng ge xiǎoshí gē, wǎnshang hái qù tīng yīnyuèhuì le.", uzbek: "Ikki soat qo'shiq aytdik, kechqurun yana konsertga ham bordik.", en: "We sang for two hours, and we also went to a concert in the evening.", ru: "Мы пели два часа, а вечером еще сходили на концерт." },
+                    { speaker: "同事", hanzi: "你们都对音乐感兴趣吗？", pinyin: "Nǐmen dōu duì yīnyuè gǎn xìngqù ma?", uzbek: "Ikkalangiz ham musiqaga qiziqasizlarmi?", en: "Are you both interested in music?", ru: "Вы оба интересуетесь музыкой?" },
+                    { speaker: "小刚", hanzi: "她对音乐感兴趣，我对她更感兴趣。", pinyin: "Tā duì yīnyuè gǎn xìngqù, wǒ duì tā gèng gǎn xìngqù.", uzbek: "U musiqaga qiziqadi, men esa unga ko'proq qiziqaman.", en: "She is interested in music, and I am more interested in her.", ru: "Она интересуется музыкой, а я больше интересуюсь ею." }
                 ]
             },
             {
                 title: "课文 3：在休息室 (Dam olish xonasida / In the lounge / В комнате отдыха)",
                 lines: [
-                { speaker: "小刚", hanzi: "我跟小丽下个月结婚，到时候欢迎你来。", pinyin: "Wǒ gēn Xiǎolì xià ge yuè jié hūn, dào shíhou huānyíng nǐ lái.", uzbek: "Men va Xiaoli keyingi oy oila quramiz, vaqti kelganda kelishingni xush ko'ramiz.", en: "Xiaoli and I are getting married next month, you are welcome to come.", ru: "Мы с Сяоли поженимся в следующем месяце, будем рады видеть тебя." },
-                { speaker: "同事", hanzi: "什么？结婚？", pinyin: "Shénme? Jié hūn?", uzbek: "Nima? Oila qurasizlar?", en: "What? Getting married?", ru: "Что? Женитесь?" },
-                { speaker: "小刚", hanzi: "对啊，突然吗？", pinyin: "Duì a, tūrán ma?", uzbek: "Ha, kutilmagandami?", en: "Yes, is it sudden?", ru: "Да, неожиданно?" },
-                { speaker: "同事", hanzi: "你们不是刚认识吗？", pinyin: "Nǐmen bú shì gāng rènshi ma?", uzbek: "Sizlar endi tanishmadingizlarmi?", en: "Didn't you just meet?", ru: "Разве вы не только что познакомились?" },
-                { speaker: "小刚", hanzi: "我跟她都认识五年了。", pinyin: "Wǒ gēn tā dōu rènshi wǔ nián le.", uzbek: "U bilan tanishganimga besh yil boʻldi.", en: "I have known her for five years.", ru: "Мы знакомы уже пять лет." },
-                { speaker: "同事", hanzi: "你跟她结婚，那我怎么办啊？", pinyin: "Nǐ gēn tā jié hūn, nà wǒ zěnme bàn a?", uzbek: "Sen u bilan oila qursang, men nima qilaman?", en: "If you marry her, what about me?", ru: "Если ты женишься на ней, что же делать мне?" }
+                    { speaker: "小刚", hanzi: "我跟小丽下个月结婚，到时候欢迎你来。", pinyin: "Wǒ gēn Xiǎolì xià ge yuè jié hūn, dào shíhou huānyíng nǐ lái.", uzbek: "Men va Xiaoli keyingi oy oila quramiz, vaqti kelganda kelishingni xush ko'ramiz.", en: "Xiaoli and I are getting married next month, you are welcome to come.", ru: "Мы с Сяоли поженимся в следующем месяце, будем рады видеть тебя." },
+                    { speaker: "同事", hanzi: "什么？结婚？", pinyin: "Shénme? Jié hūn?", uzbek: "Nima? Oila qurasizlar?", en: "What? Getting married?", ru: "Что? Женитесь?" },
+                    { speaker: "小刚", hanzi: "对啊，突然吗？", pinyin: "Duì a, tūrán ma?", uzbek: "Ha, kutilmagandami?", en: "Yes, is it sudden?", ru: "Да, неожиданно?" },
+                    { speaker: "同事", hanzi: "你们不是刚认识吗？", pinyin: "Nǐmen bú shì gāng rènshi ma?", uzbek: "Sizlar endi tanishmadingizlarmi?", en: "Didn't you just meet?", ru: "Разве вы не только что познакомились?" },
+                    { speaker: "小刚", hanzi: "我跟她都认识五年了。", pinyin: "Wǒ gēn tā dōu rènshi wǔ nián le.", uzbek: "U bilan tanishganimga besh yil boʻldi.", en: "I have known her for five years.", ru: "Мы знакомы уже пять лет." },
+                    { speaker: "同事", hanzi: "你跟她结婚，那我怎么办啊？", pinyin: "Nǐ gēn tā jié hūn, nà wǒ zěnme bàn a?", uzbek: "Sen u bilan oila qursang, men nima qilaman?", en: "If you marry her, what about me?", ru: "Если ты женишься на ней, что же делать мне?" }
                 ]
             },
             {
                 title: "课文 4：在公司门口 (Ishxona eshigi oldida / At the company entrance / У входа в компанию)",
                 lines: [
-                { speaker: "小丽", hanzi: "你看看手表，怎么迟到了？", pinyin: "Nǐ kànkan shǒubiǎo, zěnme chídào le?", uzbek: "Soatinga qara, nega kechikding?", en: "Look at your watch, why are you late?", ru: "Посмотри на часы, почему ты опоздал?" },
-                { speaker: "小刚", hanzi: "没迟到啊。", pinyin: "Méi chídào a.", uzbek: "Kechikmadimku.", en: "I'm not late.", ru: "Я не опоздал." },
-                { speaker: "小丽", hanzi: "你不是说七点半来接我吗？你迟到了一刻钟。", pinyin: "Nǐ bú shì shuō qī diǎn bàn lái jiē wǒ ma? Nǐ chídàole yí kè zhōng.", uzbek: "Soat yetti yarimda meni olib ketasan demaganmiding? Bir chorak (15 daqiqa) kechikding.", en: "Didn't you say you would pick me up at 7:30? You are a quarter of an hour late.", ru: "Разве ты не говорил, что заберешь меня в 7:30? Ты опоздал на четверть часа." },
-                { speaker: "小刚", hanzi: "现在不是七点半吗？", pinyin: "Xiànzài bú shì qī diǎn bàn ma?", uzbek: "Hozir yetti yarim emasi?", en: "Isn't it 7:30 now?", ru: "А разве сейчас не 7:30?" },
-                { speaker: "小丽", hanzi: "已经差一刻八点了！我都在这儿坐了半个小时了。", pinyin: "Yǐjīng chà yí kè bā diǎn le! Wǒ dōu zài zhèr zuòle bàn ge xiǎoshí le.", uzbek: "Sakkiztaga bir chorak kam bo'ldiku! Men bu yerda yarim soatdan beri o'tiribman.", en: "It's already a quarter to eight! I've been sitting here for half an hour.", ru: "Уже без четверти восемь! Я сижу здесь уже полчаса." },
-                { speaker: "小刚", hanzi: "不是我迟到了，是你的表快了一刻钟。", pinyin: "Bú shì wǒ chídào le, shì nǐ de biǎo kuàile yí kè zhōng.", uzbek: "Men kechikmadim, sening soating bir chorak (15 daqiqa) oldinga ketyapti.", en: "It's not that I'm late, it's your watch that is a quarter of an hour fast.", ru: "Дело не в том, что я опоздал, а в том, что твои часы спешат на четверть часа." }
+                    { speaker: "小丽", hanzi: "你看看手表，怎么迟到了？", pinyin: "Nǐ kànkan shǒubiǎo, zěnme chídào le?", uzbek: "Soatinga qara, nega kechikding?", en: "Look at your watch, why are you late?", ru: "Посмотри на часы, почему ты опоздал?" },
+                    { speaker: "小刚", hanzi: "没迟到啊。", pinyin: "Méi chídào a.", uzbek: "Kechikmadimku.", en: "I'm not late.", ru: "Я не опоздал." },
+                    { speaker: "小丽", hanzi: "你不是说七点半来接我吗？你迟到了一刻钟。", pinyin: "Nǐ bú shì shuō qī diǎn bàn lái jiē wǒ ma? Nǐ chídàole yí kè zhōng.", uzbek: "Soat yetti yarimda meni olib ketasan demaganmiding? Bir chorak (15 daqiqa) kechikding.", en: "Didn't you say you would pick me up at 7:30? You are a quarter of an hour late.", ru: "Разве ты не говорил, что заберешь меня в 7:30? Ты опоздал на четверть часа." },
+                    { speaker: "小刚", hanzi: "现在不是七点半吗？", pinyin: "Xiànzài bú shì qī diǎn bàn ma?", uzbek: "Hozir yetti yarim emasi?", en: "Isn't it 7:30 now?", ru: "А разве сейчас не 7:30?" },
+                    { speaker: "小丽", hanzi: "已经差一刻八点了！我都在这儿坐了半个小时了。", pinyin: "Yǐjīng chà yí kè bā diǎn le! Wǒ dōu zài zhèr zuòle bàn ge xiǎoshí le.", uzbek: "Sakkiztaga bir chorak kam bo'ldiku! Men bu yerda yarim soatdan beri o'tiribman.", en: "It's already a quarter to eight! I've been sitting here for half an hour.", ru: "Уже без четверти восемь! Я сижу здесь уже полчаса." },
+                    { speaker: "小刚", hanzi: "不是我迟到了，是你的表快了一刻钟。", pinyin: "Bú shì wǒ chídào le, shì nǐ de biǎo kuàile yí kè zhōng.", uzbek: "Men kechikmadim, sening soating bir chorak (15 daqiqa) oldinga ketyapti.", en: "It's not that I'm late, it's your watch that is a quarter of an hour fast.", ru: "Дело не в том, что я опоздал, а в том, что твои часы спешат на четверть часа." }
                 ]
             }
         ];
@@ -129,95 +139,95 @@
             {
                 title: "1. 时段的表达 (Harakat yoki holatning davomiyligi / Duration / Продолжительность)",
                 explanation: {
-                uz: "Harakat yoki holatning davomiyligini ifodalashda vaqt yordamchi to'ldiruvchisidan foydalaniladi (masalan: 一刻钟, 半个小时, 两天, 三个月).",
-                en: "To express the duration of an action or state, time complements are used (e.g., 一刻钟, 半个小时, 两天, 三个月).",
-                ru: "Для выражения продолжительности действия или состояния используются дополнения времени (например: 一刻钟, 半个小时, 两天, 三个月)."
+                    uz: "Harakat yoki holatning davomiyligini ifodalashda vaqt yordamchi to'ldiruvchisidan foydalaniladi (masalan: 一刻钟, 半个小时, 两天, 三个月).",
+                    en: "To express the duration of an action or state, time complements are used (e.g., 一刻钟, 半个小时, 两天, 三个月).",
+                    ru: "Для выражения продолжительности действия или состояния используются дополнения времени (например: 一刻钟, 半个小时, 两天, 三个月)."
                 },
                 patterns: [
-                {
-                    rule: "Ega + Fe'l + 了 + Davomiyligi + To'ldiruvchi",
-                    desc: {
-                    uz: "Harakat davomiyligini ifodalaydi (tugagan bo'lishi mumkin).",
-                    en: "Expresses the duration of an action (which may have ended).",
-                    ru: "Выражает продолжительность действия (которое может быть завершено)."
+                    {
+                        rule: "Ega + Fe'l + 了 + Davomiyligi + To'ldiruvchi",
+                        desc: {
+                            uz: "Harakat davomiyligini ifodalaydi (tugagan bo'lishi mumkin).",
+                            en: "Expresses the duration of an action (which may have ended).",
+                            ru: "Выражает продолжительность действия (которое может быть завершено)."
+                        },
+                        examples: [
+                            { hanzi: "她工作了三年。", uz: "U uch yil ishladi.", en: "She worked for three years.", ru: "Она проработала три года." },
+                            { hanzi: "我们唱了两个小时歌。", uz: "Biz ikki soat qo'shiq aytdik.", en: "We sang for two hours.", ru: "Мы пели два часа." }
+                        ]
                     },
-                    examples: [
-                    { hanzi: "她工作了三年。", uz: "U uch yil ishladi.", en: "She worked for three years.", ru: "Она проработала три года." },
-                    { hanzi: "我们唱了两个小时歌。", uz: "Biz ikki soat qo'shiq aytdik.", en: "We sang for two hours.", ru: "Мы пели два часа." }
-                    ]
-                },
-                {
-                    rule: "Ega + Fe'l + 了 + vaqt so'zlari + To'ldiruvchi + 了",
-                    desc: {
-                    uz: "Ayni harakat hali ham davom etayotganligini bildiradi.",
-                    en: "Indicates that the action is still ongoing.",
-                    ru: "Указывает на то, что действие все еще продолжается."
-                    },
-                    examples: [
-                    { hanzi: "我学习了一年汉语了。", uz: "Men xitoy tilini bir yil o'rgandim va hali ham o'rganyapman.", en: "I have been studying Chinese for a year.", ru: "Я изучаю китайский язык уже год." },
-                    { hanzi: "我都在这儿坐了半个小时了。", uz: "Men bu yerda o'tirganimga yarim soat bo'ldi.", en: "I have been sitting here for half an hour.", ru: "Я сижу здесь уже полчаса." }
-                    ]
-                }
+                    {
+                        rule: "Ega + Fe'l + 了 + vaqt so'zlari + To'ldiruvchi + 了",
+                        desc: {
+                            uz: "Ayni harakat hali ham davom etayotganligini bildiradi.",
+                            en: "Indicates that the action is still ongoing.",
+                            ru: "Указывает на то, что действие все еще продолжается."
+                        },
+                        examples: [
+                            { hanzi: "我学习了一年汉语了。", uz: "Men xitoy tilini bir yil o'rgandim va hali ham o'rganyapman.", en: "I have been studying Chinese for a year.", ru: "Я изучаю китайский язык уже год." },
+                            { hanzi: "我都在这儿坐了半个小时了。", uz: "Men bu yerda o'tirganimga yarim soat bo'ldi.", en: "I have been sitting here for half an hour.", ru: "Я сижу здесь уже полчаса." }
+                        ]
+                    }
                 ]
             },
             {
                 title: "2. 表达兴趣 (Qiziqishni ifodalash / Expressing Interest / Выражение интереса)",
                 explanation: {
-                uz: "Xitoy tilida qiziqishni ifodalash odatda “对...感兴趣” va “对...有兴趣” ko'rinishida bo'ladi. Inkor shakli “对...不感兴趣” yoki “没(有)兴趣”.",
-                en: "In Chinese, expressing interest is usually done with “对...感兴趣” and “对...有兴趣”. The negative form is “对...不感兴趣” or “对...没(有)兴趣”.",
-                ru: "В китайском языке интерес обычно выражается с помощью “对...感兴趣” и “对...有兴趣”. Отрицательная форма: “对...不感兴趣” или “对...没(有)兴趣”."
+                    uz: "Xitoy tilida qiziqishni ifodalash odatda “对...感兴趣” va “对...有兴趣” ko'rinishida bo'ladi. Inkor shakli “对...不感兴趣” yoki “没(有)兴趣”.",
+                    en: "In Chinese, expressing interest is usually done with “对...感兴趣” and “对...有兴趣”. The negative form is “对...不感兴趣” or “对...没(有)兴趣”.",
+                    ru: "В китайском языке интерес обычно выражается с помощью “对...感兴趣” и “对...有兴趣”. Отрицательная форма: “对...不感兴趣” или “对...没(有)兴趣”."
                 },
                 patterns: [
-                {
-                    rule: "A 对 B 感兴趣 / 有兴趣",
-                    desc: {
-                    uz: "A shaxs B narsaga qiziqadi. Daraja ravishlari (很, 非常) '感兴趣'dan oldin qo'yiladi.",
-                    en: "Person A is interested in thing B. Adverbs of degree (很, 非常) are placed before '感兴趣'.",
-                    ru: "Человек А интересуется вещью Б. Наречия степени (很, 非常) ставятся перед '感兴趣'."
-                    },
-                    examples: [
-                    { hanzi: "他们对电影感兴趣。", uz: "Ular kinoga qiziqadi.", en: "They are interested in movies.", ru: "Они интересуются кино." },
-                    { hanzi: "你们都对音乐感兴趣吗？", uz: "Sizlar ham musiqaga qiziqasizlarmi?", en: "Are you both interested in music?", ru: "Вы оба интересуетесь музыкой?" },
-                    { hanzi: "我对她更感兴趣。", uz: "Men unga ko'proq qiziqaman.", en: "I am more interested in her.", ru: "Я больше интересуюсь ею." }
-                    ]
-                }
+                    {
+                        rule: "A 对 B 感兴趣 / 有兴趣",
+                        desc: {
+                            uz: "A shaxs B narsaga qiziqadi. Daraja ravishlari (很, 非常) '感兴趣'dan oldin qo'yiladi.",
+                            en: "Person A is interested in thing B. Adverbs of degree (很, 非常) are placed before '感兴趣'.",
+                            ru: "Человек А интересуется вещью Б. Наречия степени (很, 非常) ставятся перед '感兴趣'."
+                        },
+                        examples: [
+                            { hanzi: "他们对电影感兴趣。", uz: "Ular kinoga qiziqadi.", en: "They are interested in movies.", ru: "Они интересуются кино." },
+                            { hanzi: "你们都对音乐感兴趣吗？", uz: "Sizlar ham musiqaga qiziqasizlarmi?", en: "Are you both interested in music?", ru: "Вы оба интересуетесь музыкой?" },
+                            { hanzi: "我对她更感兴趣。", uz: "Men unga ko'proq qiziqaman.", en: "I am more interested in her.", ru: "Я больше интересуюсь ею." }
+                        ]
+                    }
                 ]
             },
             {
                 title: "3. 用“半”“刻”“差”表示时间 (Vaqtning ifodalanishi / Telling Time / Обозначение времени)",
                 explanation: {
-                uz: "Vaqtni aytishda maxsus so'zlardan foydalanish:",
-                en: "Using special words to tell time:",
-                ru: "Использование специальных слов для указания времени:"
+                    uz: "Vaqtni aytishda maxsus so'zlardan foydalanish:",
+                    en: "Using special words to tell time:",
+                    ru: "Использование специальных слов для указания времени:"
                 },
                 patterns: [
-                {
-                    rule: "半 (bàn) - yarim / 30 daqiqa | half | половина",
-                    desc: {
-                    uz: "一点半 (1:30) - Bir yarim.",
-                    en: "一点半 (1:30) - Half past one.",
-                    ru: "一点半 (1:30) - Полвторого."
+                    {
+                        rule: "半 (bàn) - yarim / 30 daqiqa | half | половина",
+                        desc: {
+                            uz: "一点半 (1:30) - Bir yarim.",
+                            en: "一点半 (1:30) - Half past one.",
+                            ru: "一点半 (1:30) - Полвторого."
+                        },
+                        examples: []
                     },
-                    examples: []
-                },
-                {
-                    rule: "刻 (kè) - chorak / 15 daqiqa | quarter | четверть",
-                    desc: {
-                    uz: "十二点一刻 (12:15) - O'n ikkidan bir chorak o'tdi.",
-                    en: "十二点一刻 (12:15) - A quarter past twelve.",
-                    ru: "十二点一刻 (12:15) - Четверть первого."
+                    {
+                        rule: "刻 (kè) - chorak / 15 daqiqa | quarter | четверть",
+                        desc: {
+                            uz: "十二点一刻 (12:15) - O'n ikkidan bir chorak o'tdi.",
+                            en: "十二点一刻 (12:15) - A quarter past twelve.",
+                            ru: "十二点一刻 (12:15) - Четверть первого."
+                        },
+                        examples: []
                     },
-                    examples: []
-                },
-                {
-                    rule: "差 (chà) - ...ta kam | to/fall short of | без",
-                    desc: {
-                    uz: "差一刻八点 (7:45) - Sakkizta kam bir chorak (15 daqiqa).",
-                    en: "差一刻八点 (7:45) - A quarter to eight.",
-                    ru: "差一刻八点 (7:45) - Без четверти восемь."
-                    },
-                    examples: []
-                }
+                    {
+                        rule: "差 (chà) - ...ta kam | to/fall short of | без",
+                        desc: {
+                            uz: "差一刻八点 (7:45) - Sakkizta kam bir chorak (15 daqiqa).",
+                            en: "差一刻八点 (7:45) - A quarter to eight.",
+                            ru: "差一刻八点 (7:45) - Без четверти восемь."
+                        },
+                        examples: []
+                    }
                 ]
             }
         ];
@@ -240,14 +250,11 @@
             { id: 15, type: "grammar", question: "Gapni to'ldiring: 你们 ___ 刚认识吗？ (Sizlar endi tanishmadingizlarmi?)", options: ["不是", "对不起", "没关系", "知道"], answer: "不是" }
         ];
 
+        // --- 主程序逻辑 ---
         function App() {
             const [activeTab, setActiveTab] = useState('flashcards');
-            
-            // Flashcards state
             const [currentCard, setCurrentCard] = useState(0);
             const [isFlipped, setIsFlipped] = useState(false);
-
-            // Quiz state
             const [quizAnswers, setQuizAnswers] = useState({});
             const [quizSubmitted, setQuizSubmitted] = useState(false);
             const [score, setScore] = useState(0);
@@ -287,7 +294,7 @@
 
             return (
                 <div className="min-h-screen flex flex-col">
-                    {/* Header */}
+                    {/* 头部标题区域 */}
                     <header className="bg-teal-600 text-white shadow-md">
                         <div className="max-w-4xl mx-auto p-4 sm:p-6">
                             <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
@@ -301,7 +308,7 @@
                         </div>
                     </header>
 
-                    {/* Navigation */}
+                    {/* 导航菜单 */}
                     <nav className="bg-white border-b shadow-sm sticky top-0 z-10">
                         <div className="max-w-4xl mx-auto flex flex-wrap gap-2 p-2 sm:px-6">
                             <button onClick={() => setActiveTab('flashcards')} className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-colors ${activeTab === 'flashcards' ? 'bg-teal-100 text-teal-700' : 'text-gray-600 hover:bg-gray-100'}`}>
@@ -319,10 +326,10 @@
                         </div>
                     </nav>
 
-                    {/* Main Content Area */}
+                    {/* 主体内容区域 */}
                     <main className="flex-grow max-w-4xl mx-auto w-full p-4 sm:p-6 pb-20">
                         
-                        {/* TAB: Flashcards */}
+                        {/* 闪卡模块 */}
                         {activeTab === 'flashcards' && (
                             <div className="flex flex-col items-center justify-center pt-8">
                                 <div className="text-center mb-6">
@@ -335,20 +342,16 @@
                                     onClick={() => setIsFlipped(!isFlipped)}
                                 >
                                     <div className={`w-full h-full transition-transform duration-500 preserve-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}>
-                                        
-                                        {/* Front Side */}
                                         <div className="absolute w-full h-full bg-white rounded-2xl shadow-xl border border-gray-100 flex flex-col items-center justify-center p-6 backface-hidden">
                                             <div className="text-6xl font-medium text-gray-800 mb-4">{vocabList[currentCard].hanzi}</div>
                                             <div className="text-2xl text-teal-600 tracking-wide">{vocabList[currentCard].pinyin}</div>
                                             <div className="absolute bottom-4 text-xs text-gray-400">{currentCard + 1} / {vocabList.length}</div>
                                         </div>
                                         
-                                        {/* Back Side */}
                                         <div className="absolute w-full h-full bg-teal-50 rounded-2xl shadow-xl border border-teal-200 flex flex-col items-center justify-center p-6 backface-hidden rotate-y-180">
                                             <div className="text-3xl font-bold text-teal-800 text-center">{vocabList[currentCard].uzbek}</div>
                                             <div className="absolute bottom-4 text-xs text-teal-500">{currentCard + 1} / {vocabList.length}</div>
                                         </div>
-
                                     </div>
                                 </div>
 
@@ -363,7 +366,7 @@
                             </div>
                         )}
 
-                        {/* TAB: Dialogues */}
+                        {/* 对话模块 */}
                         {activeTab === 'dialogues' && (
                             <div className="space-y-8 animate-fade-in">
                                 <h2 className="text-2xl font-bold text-gray-800 mb-6">对话内容 (Matnlar / Dialogues / Диалоги)</h2>
@@ -397,7 +400,7 @@
                             </div>
                         )}
 
-                        {/* TAB: Grammar */}
+                        {/* 语法模块 */}
                         {activeTab === 'grammar' && (
                             <div className="space-y-8 animate-fade-in">
                                 <h2 className="text-2xl font-bold text-gray-800 mb-6">语法解释 (Grammatika / Grammar / Грамматика)</h2>
@@ -439,7 +442,7 @@
                             </div>
                         )}
 
-                        {/* TAB: Quiz */}
+                        {/* 测试模块 */}
                         {activeTab === 'quiz' && (
                             <div className="animate-fade-in">
                                 <div className="text-center mb-8 bg-gradient-to-r from-teal-600 to-blue-600 text-white rounded-2xl p-6 shadow-md">
@@ -525,7 +528,7 @@
                         )}
                     </main>
 
-                    {/* Footer */}
+                    {/* 页脚 */}
                     <footer className="bg-gray-800 text-gray-300 py-6 text-center text-sm mt-auto">
                         <div className="max-w-4xl mx-auto px-4">
                             <p className="mb-1 font-medium tracking-wider">HSK 3 Standard Course - Lesson 7</p>
